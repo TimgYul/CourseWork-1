@@ -29,7 +29,6 @@ class YandexDisk:
         headers = self.get_headers()
         params = {"path": f'photos_vk/{filename}', "overwrite": "true"}
         response = requests.get(upload_url, headers=headers, params=params)
-        #href = self._get_upload_link(disk_file_path=f'photos_vk/{filename}').get("href", "")
         href = response.json().get('href')
 
         response = requests.put(href, data=open(filename, 'rb'))
