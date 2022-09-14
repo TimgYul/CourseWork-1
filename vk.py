@@ -24,28 +24,7 @@ class VK:
         self.id = response.json()['response'][0]['id']
         return response.json()
     
-    
-    def create_folder(self, folder):
-        if (os.path.exists(folder)):
-
-            os.chdir(folder)
-            #print(f'Создана папка {name}!')
-        else:
-            try:
-                os.mkdir(folder)
-                #print(f'Создана папка {name}!')
-                os.chdir(folder)
-            except OSError:
-                #print(f'Проблема с созданием папки {name}!')
-                exit()
-
-    def save_json(json_data):
-
-        with open('data.json', 'w', encoding='utf-8') as f:
-            json.dump(json_data, f, ensure_ascii=False, indent=4)
-    
     def download_from_vk(self, ya, photo_count):
-        self.create_folder('photos_vk')
 
         url = 'https://api.vk.com/method/photos.get'
         params = {'owner_id': self.id, 'album_id': 'profile', 'extended': 1, 'count': 1000}
@@ -72,11 +51,9 @@ class VK:
                 result['size'] = 'z'
                 list.append(result)
                 num += 1
-                urllib.request.urlretrieve(rep["sizes"][-1]["url"],result['file_name'])
-                ya.upload_file_to_disk(result['file_name'])
-                os.remove(result['file_name'])
+                ya.upload_file_to_disk(result['file_name'], rep["sizes"][-1]["url"])
                 bar.update(num)
             else:            
                 json_data = json.dumps(list)
-                self.save_json(json_data)
+                ya.save_json(list)
                 return json_data
