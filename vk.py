@@ -3,7 +3,6 @@ import json
 import os
 import sys
 import progressbar as pb
-import urllib.request
 from datetime import datetime
 
 class VK:

@@ -25,10 +25,8 @@ class YandexDisk:
         upload_url = "https://cloud-api.yandex.net/v1/disk/resources/upload"
         headers = self.get_headers()
         params = {"path": f'photos_vk/{filename}', "url": url, "overwrite": "true"}
-        #response = requests.get(upload_url, headers=headers, params=params)
-        #href = response.json().get('href')
 
-        response = requests.post(upload_url, params=params, headers=headers ) # data=open(filename, 'rb'))
+        response = requests.post(upload_url, params=params, headers=headers ) 
 
     def save_json_local(self,json_data):
         with open('data.json', 'w', encoding='utf-8') as f:
